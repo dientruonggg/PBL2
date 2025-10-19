@@ -18,6 +18,8 @@ private:
     SearchService searchService;
     
 public:
+    CinemaSystem()
+            : searchService(&movieService, &showtimeService, &bookingService, &paymentService) {}
     void displayMainMenu() {
         cout << "\n=== CINEMA BOOKING SYSTEM ===" << endl;
         cout << "1. Movie Management" << endl;

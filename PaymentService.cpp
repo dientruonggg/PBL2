@@ -429,12 +429,13 @@ vector<Payment*> PaymentService::getPaymentsByStatus(const string& status) const
 vector<Payment*> PaymentService::getPaymentsByDate(const string& date) const {
     vector<Payment*> results;
     for (Payment* payment : payments) {
-        char dateBuffer[11];
-        strftime(dateBuffer, sizeof(dateBuffer), "%Y-%m-%d", localtime(&payment->getCreatedAt()));
-        if (string(dateBuffer) == date) {
-            results.push_back(payment);
-        }
+    char dateBuffer[11];
+    time_t createdAt = payment->getCreatedAt(); // Tạo biến tạm
+    strftime(dateBuffer, sizeof(dateBuffer), "%Y-%m-%d", localtime(&createdAt));
+    if (string(dateBuffer) == date) {
+        results.push_back(payment);
     }
+}
     return results;
 }
 
@@ -536,4 +537,52 @@ bool PaymentService::reconcileTransactions(const string& date) {
 }
 
 vector<Payment*> PaymentService::getPendingPayments() const {
-    return getPaymentsByStatus("
+    return getPaymentsByStatus("pending");
+}
+
+vector<Payment*> PaymentService::getFailedPayments() const {
+    return getPaymentsByStatus("failed");
+}
+void PaymentService::processPaymentDemo() {
+    cout << "[Demo] Process Payment Demo" << endl;
+}
+
+void PaymentService::refundPaymentDemo() {
+    cout << "[Demo] Refund Payment Demo" << endl;
+}
+
+void PaymentService::viewPaymentHistoryDemo() {
+    cout << "[Demo] View Payment History Demo" << endl;
+}
+
+void PaymentService::reconcileDemo() {
+    cout << "[Demo] Reconcile Demo" << endl;
+}
+
+void PaymentService::paymentReportsDemo() {
+    cout << "[Demo] Payment Reports Demo" << endl;
+}
+
+// Utility
+void PaymentService::displayAllPayments() const {
+    for (Payment* payment : payments) {
+        payment->displayInfo();
+        cout << endl;
+    }
+}
+
+void PaymentService::displayPaymentSummary() const {
+    cout << "Total Payments: " << payments.size() << endl;
+}
+
+string PaymentService::formatTime(time_t timeValue) const {
+    char timeBuffer[80];
+    strftime(timeBuffer, sizeof(timeBuffer), "%Y-%m-%d %H:%M", localtime(&timeValue));
+    return string(timeBuffer);
+}
+
+string PaymentService::maskCardNumber(const string& cardNumber) const {
+    if (cardNumber.empty()) return "";
+    if (cardNumber.length() < 4) return string(cardNumber.length(), '*');
+    return string(cardNumber.length() - 4, '*') + cardNumber.substr(cardNumber.length() - 4);
+}
