@@ -1,4 +1,3 @@
-
 #include "BookingService.h"
 #include <algorithm>
 #include <sstream>

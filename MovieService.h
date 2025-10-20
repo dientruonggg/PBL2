@@ -31,17 +31,20 @@ class Movie : public Entity {
 private:
     string title;
     string original_title;
-    string slug;
-    string synopsis;
+    string slug;    // tiêu đề cạnh
+    string synopsis;    // mô tả tóm tắt
     int duration_min;
     string rating_age;
     string language;
     vector<string> genres;
     string poster_url;
     string trailer_url;
-    string status;
+    string status;  // Active - Inactive - Archived
     time_t release_date;
-    string created_by;
+    string created_by;   //not yet// nhân viên phụ trách 
+    string director;         //not yet// 
+    vector<string> actors;//not yet//
+    //contract_expiry //not yet//
 
 public:
     Movie();
